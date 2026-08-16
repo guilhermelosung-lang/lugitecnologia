@@ -24,6 +24,7 @@ export default async function DashboardPage() {
     { count: calculosSacada },
     { count: calculosPorta },
     { count: calculosJanela },
+    { count: totalOrcamentos },
   ] = await Promise.all([
     supabase.from("clientes").select("id", { count: "exact", head: true }).is("deleted_at", null),
     supabase
@@ -47,7 +48,46 @@ export default async function DashboardPage() {
     supabase.from("calculos_sacada").select("id", { count: "exact", head: true }),
     supabase.from("calculos_porta").select("id", { count: "exact", head: true }),
     supabase.from("calculos_janela").select("id", { count: "exact", head: true }),
+    supabase.from("orcamentos").select("id", { count: "exact", head: true }),
   ]);
+
+  const totalCalculos =
+    (calculosBox ?? 0) + (calculosSacada ?? 0) + (calculosPorta ?? 0) + (calculosJanela ?? 0);
+
+  const passos = [
+    {
+      titulo: "Monte seu catálogo",
+      desc: "Cadastre os sistemas e kits que sua vidraçaria trabalha.",
+      feito: (sistemasCadastrados ?? 0) > 0,
+      href: "/catalogo/novo",
+    },
+    {
+      titulo: "Cadastre seu primeiro cliente",
+      desc: "Dados de contato pra vincular obras e orçamentos.",
+      feito: (totalClientes ?? 0) > 0,
+      href: "/clientes/novo",
+    },
+    {
+      titulo: "Faça um cálculo técnico",
+      desc: "Box, sacada, porta ou janela — o sistema calcula tudo sozinho.",
+      feito: totalCalculos > 0,
+      href: "/calculadoras",
+    },
+    {
+      titulo: "Gere um orçamento",
+      desc: "Monte a proposta e baixe o PDF pra enviar ao cliente.",
+      feito: (totalOrcamentos ?? 0) > 0,
+      href: "/orcamentos",
+    },
+    {
+      titulo: "Convide sua equipe",
+      desc: "Cada pessoa entra com o perfil certo (vendedor, medidor, instalador...).",
+      feito: (usuariosAtivos ?? 0) > 1,
+      href: "/usuarios",
+    },
+  ];
+  const passosFeitos = passos.filter((p) => p.feito).length;
+  const mostrarPrimeirosPassos = passosFeitos < passos.length;
 
   const itensEstoqueBaixo = (itensEstoque ?? []).filter(
     (i) => i.quantidade_atual <= i.quantidade_minima
@@ -96,6 +136,47 @@ export default async function DashboardPage() {
           Visão geral de {context.empresa.nome_fantasia || context.empresa.razao_social}.
         </p>
       </div>
+
+      {mostrarPrimeirosPassos && (
+        <div className="rounded-2xl border border-accent/20 bg-gradient-to-br from-accent/5 to-accent-2/5 p-5">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div>
+              <h2 className="font-heading text-sm font-semibold text-primary">
+                Primeiros passos no sistema
+              </h2>
+              <p className="text-xs text-muted">
+                Siga essa ordem pra colocar sua vidraçaria pra rodar no sistema.
+              </p>
+            </div>
+            <span className="whitespace-nowrap rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent-dark">
+              {passosFeitos}/{passos.length}
+            </span>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {passos.map((passo, i) => (
+              <Link
+                key={passo.titulo}
+                href={passo.href}
+                className={`group relative rounded-xl border p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 ${
+                  passo.feito
+                    ? "border-success/30 bg-success/5"
+                    : "border-border bg-surface hover:border-accent/40 hover:shadow-[0_8px_20px_rgba(76,29,149,0.1)]"
+                }`}
+              >
+                <span
+                  className={`mb-2 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
+                    passo.feito ? "bg-success text-white" : "bg-border text-muted group-hover:bg-accent group-hover:text-white"
+                  }`}
+                >
+                  {passo.feito ? "✓" : i + 1}
+                </span>
+                <p className="text-sm font-semibold text-foreground">{passo.titulo}</p>
+                <p className="mt-1 text-xs text-muted">{passo.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div>
         <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
@@ -164,10 +245,9 @@ export default async function DashboardPage() {
 
       <div className="rounded-2xl border border-dashed border-border bg-surface p-5">
         <p className="text-sm text-foreground">
-          Medição digital, calculadoras de esquadrias/serralheria, plano de corte, produção,
-          instalação, assinatura digital e financeiro ainda não foram implementados — os cards
-          desses módulos não aparecem aqui de propósito, para não mostrar números
-          inventados.
+          Esses números acima são só uma parte do sistema — Produção, Financeiro, Agenda,
+          Estoque e outros módulos têm suas próprias telas no menu, com dados reais também.
+          Alguns detalhes menores de cada módulo ainda estão em evolução.
         </p>
         <Link
           href="/progresso"

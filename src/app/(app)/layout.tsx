@@ -3,6 +3,7 @@ import { requireUsuario } from "@/lib/auth/context";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { PageTransition } from "@/components/layout/page-transition";
 
 export default async function AppLayout({
   children,
@@ -34,8 +35,8 @@ export default async function AppLayout({
               : `🎁 Teste grátis: restam ${diasRestantesTrial} dia(s) — clique para ver os planos`}
           </Link>
         )}
-        <main className="flex-1 px-4 py-6 pb-20 md:px-8 md:py-8 md:pb-8">
-          {children}
+        <main className="flex-1 px-4 py-6 pb-24 md:px-8 md:py-8 md:pb-8">
+          <PageTransition>{children}</PageTransition>
         </main>
       </div>
       <MobileNav />

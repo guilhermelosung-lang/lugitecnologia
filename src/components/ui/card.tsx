@@ -41,7 +41,12 @@ export function StatCard({
   className?: string;
 }) {
   return (
-    <Card className={cn("p-5", className)}>
+    <Card
+      className={cn(
+        "p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(76,29,149,0.12)]",
+        className
+      )}
+    >
       <p className="text-xs font-semibold uppercase tracking-wide text-muted">
         {label}
       </p>

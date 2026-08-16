@@ -21,7 +21,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </span>
         Lugi Sistemas
       </Link>
-      <div className="relative z-10 w-full max-w-md">{children}</div>
+      <div className="relative z-10 w-full max-w-md animate-fade-in-up">{children}</div>
     </div>
   );
 }
