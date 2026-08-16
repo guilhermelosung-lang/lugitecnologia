@@ -8,7 +8,7 @@ import type { ActionState } from "@/lib/actions/auth";
 
 const catalogoSchema = z.object({
   nome: z.string().trim().min(2, "Informe o nome."),
-  tipo: z.enum(["furo", "recorte", "lapidacao", "chanfro", "polimento", "outro"]),
+  tipo: z.enum(["furo", "recorte", "lapidacao", "chanfro", "polimento", "tempera", "outro"]),
   descricao: z.string().trim().optional().transform((v) => v || null),
   preco_unitario: z.coerce.number().min(0).optional().or(z.literal("")).transform((v) => (v === "" ? null : v)),
 });

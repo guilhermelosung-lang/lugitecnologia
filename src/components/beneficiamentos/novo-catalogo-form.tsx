@@ -29,6 +29,7 @@ export function NovoCatalogoForm() {
           <option value="lapidacao">Lapidação</option>
           <option value="chanfro">Chanfro</option>
           <option value="polimento">Polimento</option>
+          <option value="tempera">Têmpera</option>
           <option value="outro">Outro</option>
         </Select>
       </div>

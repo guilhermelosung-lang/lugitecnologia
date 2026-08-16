@@ -11,6 +11,7 @@ const TIPO_LABEL: Record<string, string> = {
   lapidacao: "Lapidação",
   chanfro: "Chanfro",
   polimento: "Polimento",
+  tempera: "Têmpera",
   outro: "Outro",
 };
 
