@@ -17,7 +17,7 @@ export const NAV_ITEMS = [
 
   { href: "/catalogo", label: "Catálogo", icon: "catalogo", grupo: "Cadastros" },
   { href: "/estoque", label: "Estoque", icon: "estoque", grupo: "Cadastros" },
-  { href: "/fornecedores", label: "Fornecedores", icon: "fornecedor", grupo: "Cadastros" },
+  { href: "/fornecedores/precos-vidro", label: "Têmpera", icon: "tempera", grupo: "Cadastros" },
   { href: "/comparador-fornecedores", label: "Comparador de Fornecedores", icon: "comparador", grupo: "Cadastros" },
 
   { href: "/financeiro", label: "Financeiro", icon: "financeiro", grupo: "Gestão" },
